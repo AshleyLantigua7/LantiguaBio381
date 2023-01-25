@@ -1,0 +1,19 @@
+---
+title: "Homework_02"
+author: "Ashley Lantigua"
+date: "2023-01-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Important Info for Homework 2
+
+[My GitHub repository page](https://github.com/AshleyLantigua7)
+
+[My new webpage](https://ashleylantigua7.github.io/LantiguaBio381/)
+
+Fun Fact: My middle name is a blend of my parents name. Arismendy + Maribel = Arisbell. This was before couple names were a thing! 
+

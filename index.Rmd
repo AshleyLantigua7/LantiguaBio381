@@ -11,3 +11,4 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Hello! This is my page for my BIO381 Homework Assignments
 
+[Homework_02](Homework_02.html)
