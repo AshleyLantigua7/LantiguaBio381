@@ -2,7 +2,9 @@
 title: "LantiguaBio381"
 author: "Ashley Lantigua"
 date: "2023-01-25"
-output: html_document
+output: 
+  html_document: 
+    theme: flatly
 ---
 
 ```{r setup, include=FALSE}
@@ -10,5 +12,13 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Hello! This is my page for my BIO381 Homework Assignments
+
+### My Links 
+
+[My GitHub repository page](https://github.com/AshleyLantigua7)
+
+[My new webpage](https://ashleylantigua7.github.io/LantiguaBio381/)
+
+### Homework Assignments
 
 [Homework_02](Homework_02.html)
