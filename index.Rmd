@@ -1,0 +1,13 @@
+---
+title: "LantiguaBio381"
+author: "Ashley Lantigua"
+date: "2023-01-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Hello! This is my page for my BIO381 Homework Assignments
+
