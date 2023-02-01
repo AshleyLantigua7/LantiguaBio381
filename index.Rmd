@@ -22,3 +22,5 @@ knitr::opts_chunk$set(echo = TRUE)
 ### Homework Assignments
 
 [Homework_02](Homework_02.html)
+
+[Homework_03](Lantigua_Homework_01.html)
