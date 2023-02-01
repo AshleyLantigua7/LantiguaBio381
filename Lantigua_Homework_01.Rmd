@@ -1,0 +1,115 @@
+---
+title: "Lantigua_Ashley_HW_3"
+author: "Ashley Lantigua"
+date: "2023-02-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## First Problem Set
+
+For the first problem we have a set of words that are in columns and we have to: 
+  Remove the spaces between the sections and add a comma.
+  
+```My find regex statement is: 
+    [ \t]{2,}```
+    
+    Which means find the tab/space of 2 or more
+    
+```My replace regex statement is: 
+    ,```
+    
+    this means add a comma
+    
+## Second Problem 
+
+The second problem wants us to take the second word and the first word and then add parentheses for the third word 
+  
+```My find regex statement is: 
+    (\w+),\s(\w+),\s(.*)```
+    
+    which means take the first word leave the comma and space, take the second word leave the comma and space and then take all the rest.
+    
+```My replace regex statement is: 
+    \2 \1 \(\3\)```
+    
+    means take the second capture add a space take the first capture add parentheses and take the third capture
+    
+## Third problem 
+
+A. The first part of this problem would like us to add a return after each tune file
+
+```My find regex statment is: 
+    (.mp3)\s```
+    
+    which means find ".mp3" with a space after it
+    
+``` My replace regex statment is: 
+    \1\n```
+    
+    take the first capture and add a return
+    
+## Fourth Problem 
+
+This problem would like us to rearrange the order of the information of the popular tune
+
+```My find regex statement is: 
+    (\d{4})\s(.*)(.\w{2}\d)```
+    
+    which means capture first four numbers, ignore the space and capture up until the ".". Then capture the period that is followed by two letter characters and a number. 
+    
+```My replace regex statement is: 
+    \2_\1\3```
+    
+    take the second capture add a space, add an underscore first capture and then add the third capture.
+  
+## Fifth Problem
+
+This problem would like us to take the first letter of the genus add an underscore add a comma and take only the second number variable. 
+
+```My find regex statment is: 
+    (\w)\w+,(\w+),\d+.\d+(,\d+)```
+    
+    which means capture the first letter skip the rest of the word and the comma, capture this whole word skip the comma and the first number that has a period in it and capture comma and the second number)
+    
+ ``` My replace regex statement is: 
+    \1_\2\3```
+    
+    take the first capture add an underscore, take the second capture and add the third capture.
+    
+## Sixth Problem 
+
+This problem wants to take the first letter of the genus add an underscore and take the first four characters of the species followed by a comma and the second set of numbers. 
+
+```My find regex statement is: 
+    (\w)\w+,(\w{4})\w+,\d+.\d+(,\d+)```
+    
+    Capture the first letter skip the rest of the word and comma, capture the first four characters of the word and skip the rest of the word. Continue to skip the comma and the first set of numbers that has a period and capture the comma and the second set of numbers.
+  
+```My replace regex statement is:
+    \1_\2\3```
+    
+    Take the first capture add an underscore then take the second and third capture
+
+## Seventh Problem
+
+This problem would like for me to take the first three characters of the genus and combine it with the first three characters of the species and then switch the order of the two numbers. 
+
+```My find regex statement is: 
+    (\w{3})\w+,(\w{3})\w+,(\d+.\d+),(\d+)```
+    
+    which means capture the first three characters skip the rest of the word and the comma. Capture the first three characters of the next word and skip the rest of the word and comma. Capture the number with the decimal in it ignore the comma and capture the second number.
+  
+ ``` My replace regex statement is: 
+    \1\2, \4, \3```
+    
+    Take the first capture and then take the second capture add a comma and a space then add the fourth capture then a comma and a space and lastly take the third capture.
+  
+    
+    
+    
+    
+    
