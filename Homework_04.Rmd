@@ -51,6 +51,8 @@ a2 <- seq(from=7, to=1)
 
 a <- c(a1, a2)
 
+a
+
 #b
 
 b1 <- seq(from=1, to=5)
@@ -58,12 +60,16 @@ b2 <- seq(from=1, to=5)
 
 b <- rep(x=b1, times=b2)
 
+b
+
 #c
 
 c1 <- seq(from=5, to=1)
 c2 <- seq(from=1, to=5)
 
 c <- rep(x=c1, times=c2)
+
+c
 
 ```
 
@@ -131,7 +137,7 @@ queue
 
 
 ```
-The aphis is 3rd in line! 
+The aphid is 3rd in line! 
 
 ##  5. Selecting the numbers that are not divisible by 2,3 or 7
 
