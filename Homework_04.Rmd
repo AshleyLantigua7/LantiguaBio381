@@ -1,0 +1,164 @@
+---
+title: 'Homework #4'
+author: "Ashley Lantigua"
+date: "2023-03-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#Creating expressions and assigning values 
+
+#a 
+
+x <- 1.1
+
+a <- 2.2
+
+b <- 3.3
+
+z <- x^(a^b)
+
+z
+
+#b
+
+Z <- (x^a)^b
+
+z
+
+#c
+
+z <- 3*x^3 + 2*x^2 + 1
+
+z
+
+```
+
+
+
+## 2. Using rep and seq functions, create the following vectors: 
+
+```{r}
+
+#a
+
+a1 <- seq(from=1, to=8)
+a2 <- seq(from=7, to=1)
+
+a <- c(a1, a2)
+
+#b
+
+b1 <- seq(from=1, to=5)
+b2 <- seq(from=1, to=5)
+
+b <- rep(x=b1, times=b2)
+
+#c
+
+c1 <- seq(from=5, to=1)
+c2 <- seq(from=1, to=5)
+
+c <- rep(x=c1, times=c2)
+
+```
+
+
+
+## 3. Create a vector of tw
+
+
+```{r}
+
+x <- runif(1)
+y <- runif(1)
+
+#converting cartesian to polar coordinates 
+
+#solving for r 
+
+r <- sqrt(x^2 + y^2)
+
+theta <- atan(y/x)
+
+polar <- c(r, theta)
+
+print(polar)
+
+```
+
+
+## 4. Create a vector 
+
+
+```{r}
+
+queue <- c("sheep", "fox", "owl", "ant")
+
+#a
+
+queue <- c(queue, "serpent")
+
+#b sheep enters ark
+
+queue <- queue[queue != "sheep"]
+  
+#c
+
+queue <- c("donkey", queue)
+
+#d serpent leaves 
+
+queue <- queue[queue != "serpent"]
+  
+#e owl leaves 
+  
+queue <- queue[queue != "owl"]
+  
+#f aphid before ant 
+
+queue
+  
+queue <- append(queue, "aphid", after = 2)
+  
+#where is aphid
+  
+queue
+
+
+```
+The aphis is 3rd in line! 
+
+##  5. Selecting the numbers that are not divisible by 2,3 or 7
+
+```{r}
+
+#creating the variable
+
+answer <- seq(1:100)
+
+#selecting for not divisible by 2
+
+answer <- answer[answer %% 2 != 0]
+
+#selecting for not for not divisible by 3
+
+answer <- answer[answer %% 3 != 0]
+
+#selecting for not for not divisible by 7
+
+answer <- answer[answer %% 7 != 0]
+
+#checking which numbers are left 
+
+print(answer) 
+
+
+```
+
+
+

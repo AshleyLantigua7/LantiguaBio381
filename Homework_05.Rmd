@@ -1,0 +1,159 @@
+---
+title: 'Homework #5'
+author: "Ashley Lantigua"
+date: "2023-02-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Working with matrices, list, and data frames
+
+# Question 1
+```{r}
+#Assign to the variable "n_dims" a single random integer between 3 and 10
+
+n_dims <- runif(n=1, min=3, max=10)
+n_dims <- as.integer(n_dims)
+print(n_dims)
+
+#Create a vector of consecutive integers from 1 to n_dims^2
+
+v <- 1:n_dims^2
+print(v)
+
+#create square matrix with these elements
+
+m <- matrix(data=v, nrow= (n_dims))
+print(m)
+
+#Use the sample function to randomly reshuffle these values, print it out to see how it has changed 
+
+t <- t(m)
+print(t)
+
+#calculate the sum and the mean of the elements in the first row and then the last row
+
+firstrow_sum <- sum(t[1,])
+print(firstrow_sum)
+
+#firstrow_mean <-
+
+firstrow_mean <- mean(t[1,])
+print(firstrow_mean)
+  
+#lastrow_sum <- 
+
+lastrow_sum <- sum(t[n_dims,])
+print(lastrow_sum)
+
+#lastrow_mean
+
+lastrow_mean <- mean(t[n_dims,])
+print(lastrow_mean)
+
+#use eigen() function on your matrix
+
+eigen(t)
+
+#$values and $ vectors What numbers are these? 
+
+
+#typeof() function
+
+typeof(t)
+
+```
+
+
+## Question 2
+
+```{r}
+
+#Create a list with the following named elements 
+
+#my_matrix is a 4 x 4 matrix filled with random uniform values 
+
+n <- runif(16)
+
+my_matrix <- matrix(data= n, nrow = 4)
+
+print(my_matrix)
+
+#creating logical with 100 elements 
+
+my_logical <- runif(100, min = 1, max = 1000)
+
+my_logical
+
+my_logical <- my_logical < 100
+
+my_logical
+
+#creating a random vector of lowercase letters 
+
+my_letters <- letters[runif(26, min = 1, max = 26)]
+
+my_letters
+
+#creating the list with element [2,2] from the matrix, second element of the logical, and the second element of the letters vector 
+
+list <- list(my_matrix[2,2], my_logical[2], my_letters[2])
+
+list
+
+typeof(list[[1]])
+
+typeof(list[[2]])
+
+typeof(list[[3]])
+
+#creating a vector from a list 
+
+vector <- c(list[[1]], list[[2]], list[[3]])
+
+vector
+
+typeof(vector)
+
+```
+
+## 3. Creating a data frame
+
+```{r}
+
+#creating a data frame 
+
+my_unis <- runif(26, min = 0, max = 10)
+
+my_letters <- LETTERS[sample(1:26, 26, replace = F)]
+
+randomrows <- sample(1:26, 4, replace = F) 
+
+cols <- rep(1, 4)
+
+frame <- data.frame(my_unis, my_letters)
+
+my_unis <- replace(my_unis, randomrows, NA)
+
+print(my_unis)
+
+#determine where the NAs are 
+
+frameNa <- which(is.na(frame), arr.ind = TRUE)
+
+#Reordering the data frame to arrange the second variable in abc order 
+
+my_letters <- sort(my_letters)
+
+frame <- data.frame(my_unis, my_letters)
+
+#calculating column mean for the first variable 
+
+my_unis_mean <- frame$my_unis
+
+print(frame)
+
+```

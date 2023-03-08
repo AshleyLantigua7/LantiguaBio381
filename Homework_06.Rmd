@@ -1,0 +1,167 @@
+---
+title: "Homework #6"
+author: "Ashley Lantigua"
+date: "2023-03-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1 Examining the Iris data set
+```{r}
+#loading the packages 
+library(dplyr)
+library(tidyverse)
+
+#cleaning the data
+
+irisClean <- iris[complete.cases(iris[,]),]
+
+#examining the iris dataset
+str(iris)
+str(irisClean)
+
+```
+
+
+## 2 Creating a new data frame that only contains the species virginica and versicolor 
+ #sepal lengths longer than 6 cm
+ #sepal widths longer than 2.5
+```{r}
+
+##loading the packages 
+library(dplyr)
+library(tidyverse)
+
+#creating the new data frame 
+
+iris1 <- filter(irisClean, Species %in% c("virginica", "versicolor") & Sepal.Length > 6 & Sepal.Width > 2.5)
+
+#examining the data frame 
+
+head(iris1)
+
+
+```
+
+There are 28 observations that fit this criteria and 5 variables
+
+## 3 Now create a iris2 data frame that only contains the columns for Species, Sepal.Length, and Sepal.Width
+
+```{r}
+##loading the packages 
+library(dplyr)
+library(tidyverse)
+
+#selecting for the Species, Sepal.Length, and Sepal.Width
+
+iris2 <- select(iris1, Species, Sepal.Length, Sepal.Width)
+
+str(iris2)
+
+```
+
+There are 28 observations and 3 variables. 
+
+##4 Create an iris3 data frame from iris 2 that orders the observations from largest to smallest sepal length. 
+
+```{r}
+##loading the packages 
+library(dplyr)
+library(tidyverse)
+
+#creating the new data frame 
+
+iris3 <- arrange(iris2, by= desc(Sepal.Length))
+
+#showing the first 6 rows 
+
+head(iris3, 6)
+
+
+```
+
+
+## 5. Create a new data frame that creates a column with a sepal area value 
+
+```{r}
+##loading the packages 
+library(dplyr)
+library(tidyverse)
+
+#creating the data frame 
+
+iris4 <- mutate(iris3, Sepal.Area=Sepal.Length*Sepal.Width)
+
+#observing the data frame 
+str(iris4)
+
+```
+There are 28 observations and 4 variables 
+
+## 6. Create a function that calculates the average sepal length, the average sepal width and the sample size of the entire iris4 data frame and print iris5
+
+```{r}
+
+#creating function that calculates avg sepal length, sepal width and sample size for entire iris4 data
+
+iris5 <- summarize(iris4, average_sepal_length = mean(Sepal.Length),
+  average_sepal_width = mean(Sepal.Width), number = n())
+
+print(iris5)
+
+```
+
+## Create a function that Create a function that calculates the average sepal length, the average sepal width and the sample size for each species and print iris5
+
+```{r}
+
+#creating function 
+
+iris_by_species <- group_by(iris4, Species)
+
+iris6 <- summarize(iris4, average_sepal_length = mean(Sepal.Length),
+  average_sepal_width = mean(Sepal.Width), number = n())
+
+print(iris6)
+
+```
+
+
+## Piping the whole thing
+
+```{r}
+
+library(dplyr)
+library(tidyverse)
+library(magrittr)
+
+irisFinal <-  irisClean %>% filter(Species== c("virginica","versicolor") & Sepal.Length > 6 & Sepal.Width > 2.5) %>% 
+  select(Species, Sepal.Length, Sepal.Width) %>% 
+  arrange(by= desc(Sepal.Length)) %>% 
+  mutate(Sepal.Area=Sepal.Length*Sepal.Width) %>% 
+  group_by(Species) %>%
+  summarize(average_sepal_length = mean(Sepal.Length), average_sepal_width = mean(Sepal.Width), number = n())
+
+print(irisFinal)
+
+```
+
+
+## Making the data long form 
+
+```{r}
+#making the data long form 
+
+longform_iris <- iris %>% 
+  pivot_longer(cols= Sepal.Length:Petal.Width, 
+  names_to = "Measure", 
+  values_to = "Value", 
+  values_drop_na = T)
+
+print(longform_iris)
+
+```
+
