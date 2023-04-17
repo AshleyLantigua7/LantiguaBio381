@@ -1,0 +1,130 @@
+---
+title: "Homework_11"
+author: "Ashley Lantigua"
+date: "2023-04-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Batch Process for DESeq
+
+## A. Batch Process  
+
+```{r}
+
+#Setting Working Directory 
+   
+   setwd("Preston_Lab/DESeq_Project/VennDiagram_Results")
+
+#Start the function 
+
+ ##############################
+ # FUNCTION: DESeq Batch Process
+ # purpose: To take in files with a list of genes and convert them to the correct nomeclature and output a csv file that has the converted 
+ # input: The File Folder, The number of files 
+ # output: A CSV file
+ #-------------------- 
+ DESeq_Batch_Process <- function(file_folder, file_number) {
+ 
+#library
+    
+  library(mgsub)
+  library(stringr)
+  library(purrr)
+  library(tidyverse)
+  library(data.table)
+  library(magrittr)
+  library(stringr)
+  library(mygene)
+
+#Setting Variables in the Loop 
+  
+  csvfiles <- list.files(path = file_folder, pattern = ".csv")
+  print(csvfiles)
+  
+  csv_names <- mgsub(csvfiles, c("./",".csv"), c("",""))
+
+#Loop #1 - DNA loop 
+  
+  #Create loop names 
+
+  csvdata <- lapply(csvfiles, FUN = fread(x)) %>%
+  set_names(dataframe_names)
+  
+  for (i in seq_along(csvdata)) {
+    
+    #Choosing the DNA of the list 
+    
+    DNA_DEG_List_[i] <- [[i]][str_detect([[i]], "gene-")]
+    
+    DNA_DEG_List_[i] <- str_replace(DNA_DEG_List_[i], "gene-", "")
+  
+  }
+  
+#Loop #2 - DNA loop 
+  
+
+    for (i in seq_along(csvdata)) {
+    
+    #Choosing the DNA of the list 
+    
+    RNA_DEG_List_[i] <- [[i]][str_detect([[i]], "rna-")]
+    
+    RNA_DEG_List_[i] <- str_replace(RNA_DEG_List_[i], "rna-", "")
+  
+  }
+      
+
+  #close loop 
+  
+  for (i in seq_len(file_number)) {
+    
+    #DNA_DEG_List
+    
+    DNA_DEG_List_[i] <- queryMany(DNA_DEG_List_[i], scopes = "symbol", fields = "ensembl.gene", return.as = "DataFrame")
+    
+    #Remove rows with NAs
+    
+    DNA_DEG_List_[i] <- DNA_DEG_List_[i][complete.cases(DNA_DEG_List_[i]),]
+    
+    #RNA_DEG_List                             
+                                 
+    RNA_DEG_List_[i] <- queryMany(RNA_DEG_List_[i], scopes = "refseq", fields = "ensembl.gene", return.as = "DataFrame")
+    
+  
+  
+    #Remove rows with NAs
+  
+     RNA_DEG_List_[i] <- RNA_DEG_List_[i][complete.cases(RNA_DEG_List_[i]),]
+    
+
+#Combine the objects 
+
+    #combine the RNA and DNA 
+
+      DEG_List_[i] <- c(DNA_DEG_List_[i], RNA_DEG_List[i])
+
+    #combine the data object for each one into one data frame
+      
+      DEG_List_df <- rbind(DEG_List_df, DEG_List_[i])
+      
+ }
+
+#save into a csv
+      
+       write.table(x= DEG_List_df, file="DEG_List_df.CSV", sep = ",", row.names = FALSE)
+       
+       str(DEG_List_df)
+
+}
+
+
+
+
+
+
+
+```
