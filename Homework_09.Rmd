@@ -1,0 +1,42 @@
+---
+title: "Homework_09"
+author: "Ashley Lantigua"
+date: "2023-04-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Use structured Programing 
+
+
+```{r}
+#loading 
+library()
+
+#Annotated Functions
+
+
+#Preliminary Calls 
+
+
+#Global Variables 
+
+
+#Daisy Chain of the Functions 
+
+
+
+
+
+```
+
+
+
+## Modify Program to record a new summary variable, code a new statistical analysis, or create a different set of random variables or output graph. 
+
+
+```{r}
+

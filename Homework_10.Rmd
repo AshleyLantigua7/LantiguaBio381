@@ -1,0 +1,141 @@
+---
+title: "Homework_10"
+author: "Ashley Lantigua"
+date: "2023-04-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## For Loops and Randomization Tests
+
+## 1. Using a for loop, write a function to calculate the number of zeros in a numeric vector
+
+```{r}
+#creating the function with a for loop
+
+zero_vector <- round(runif(25, min = 0, max = 1), 0)
+
+print(zero_vector)
+
+count_zero <- function(vector) {
+  counter <- 0
+for (i in seq_along(vector)) {
+    if (vector[i] == 0) next
+  counter <- counter + 1
+  }
+return(counter)
+}
+
+count_zero(zero_vector)
+```
+
+## 2. Use subsetting instead of a loop to rewrite the function as a single line of code 
+
+```{r}
+#Using subsetting 
+
+zero_vector <- round(runif(25, min = 0, max = 1), 0)
+
+zero_vector_count <- sum(zero_vector == 0)
+
+print(zero_vector_count)
+
+```
+
+
+## 3. Function that takes two inputs and creates a matrix that of the dimensions and each elemetn is the product of the row number and the column number
+
+```{r}
+
+product_matrix <- function(row, column) {
+  total <- row * column
+  amount <- rep(0, total)
+  m <- matrix(amount, nrow = row)
+  for (i in 1:nrow(m)) {
+    for (j in 1:ncol(m)) {
+      m[i,j] <- i * j
+    }
+  }
+  return(m)
+}
+
+product_matrix(row = 5, column = 5)
+
+product_matrix(row = 3, column = 2)
+
+```
+
+## 4. Randomization Tests 
+
+## a. Simulate a dataset with 3 groups of data 
+        # create a dataframe that has one column for the group and one column for the response variable 
+        
+```{r}
+
+library(ggplot2)
+set.seed(100)
+
+#creating the groups 
+
+group_num <- c(rep("Group_1",6), rep("Group_2", 6), rep("Group_3", 6)) 
+
+print(group_num)
+
+#create response variable
+
+z <- c(runif(6, min = 0, max = 25), runif(6, min = 0, max = 25), runif(6, min = 0, max = 25))
+
+z <- as.numeric(z)
+
+print(z)
+
+#combine into a dataframe 
+
+df <- data.frame(Group = group_num, Response = z )
+
+print(df)
+
+```
+
+## b. Write Function that reshuffles the response variable and calculates the mean of each group
+
+```{r}
+
+#Reshuffles the Response variable 
+
+#Calculates the mean 
+
+  means <- tapply(df$Group, df$Response, mean)
+  print(means)
+
+# Stores the means in a vector of length 3 
+
+
+
+```
+
+
+## c. Use a loop to repeat the function in b 100 times. 
+
+
+```{r}
+
+# For loop to repeat the function 100 times 
+# it will store results in a dataframe
+# Replicate numbers, and the three group means 
+
+
+```
+
+## d. Create a histogram that will plot after each reshuffle 
+
+```{r}
+
+
+
+```
+
+

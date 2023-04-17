@@ -1,0 +1,258 @@
+---
+title: "Homework_08"
+author: "Ashley Lantigua"
+date: "2023-03-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Creating Fake Data Sets To Explore Hypothesis
+
+## 1. Acquiring Data from a paper 
+  
+  # I acquired data from the paper Song et. al, 2019, "Brachypodium histone deacetylase BdHD1 positively regulates ABA and drought stress responses" 
+  # Data is from Figure 3b and 3c
+  # This is looking at the growth in Length(cm) of a WT and bdhd1-30 mutant in the presence of Control and ABA. 
+  # The Sample size is n=30 for each one 
+  # Control       WT = 6.5  SD = 0.125
+  # Control bdhd1-30 = 6    SD = 0.35
+  # ABA           WT = 3.5  SD = 0.125
+  # ABA     bdhd1-30 = 4.5  SD = 0.25
+  
+  #The pattern we will chose is a normal distribution 
+  
+## ANOVA set up
+
+```{r}
+#Loading  ggplot2
+
+  library(ggplot2)
+
+#Number of treatment groups 
+  nGroup <- 4
+
+#Name of Groups 
+  nName <- c("Control-WT", "ABA-WT" )
+  
+#Number of Observations in each group
+  nSize <- c(30, 30)
+  
+#Mean of each group
+  nMean <- c(6.5, 3.5)
+  
+#Standard Deviation of each group
+  nSD <- c(0.125, 0.125)
+  
+#ID vector for each row
+  
+  ID <- 1:(sum(nSize))
+  resVar <- c(rnorm(n=nSize[1], mean=nMean[1], sd=nSD[1]),
+              rnorm(n=nSize[2], mean=nMean[2], sd=nSD[2])) 
+             
+  TGroup <- rep(nName, nSize)
+  ANOdata <- data.frame(ID,TGroup,resVar)
+  str(ANOdata)
+  
+#Plotting ANOVA data
+  
+  ANOplot <- ggplot(data=ANOdata,aes(x=TGroup, y=resVar, FILL=TGroup)) + 
+             geom_boxplot()
+  print(ANOplot)
+
+#Modeling ANOVA data
+
+  ANOmodel <- aov(resVar~TGroup, data = ANOdata)
+  print(ANOmodel)
+  print(summary(ANOmodel))
+  z <- summary(ANOmodel)
+  aggregate(resVar~TGroup,data=ANOdata,FUN = mean)
+  #unlist(z)
+  #z
+  #unlist(z)[7]
+  ANOsum <- list(Fval = unlist(z)[7], 
+                 probF = unlist(z)[9])
+  ANOsum
+  
+#Basic ggplot of ANOVA data
+  
+  ANOPlot <- ggplot(data=ANOdata,
+                    aes(x=TGroup,
+                        y=resVar,
+                        fill=TGroup)) +
+           geom_boxplot()
+  print(ANOPlot)
+# ggsave(filename="Plot2.pdf",plot=ANOPlot,device="pdf")
+
+```
+
+## Running analysis multiple times 
+
+```{r}
+
+#Run number 1 
+
+#Loading  ggplot2
+
+  library(ggplot2)
+
+#Number of treatment groups 
+  nGroup <- 2
+
+#Name of Groups 
+  nName <- c("Control", "ABA")
+  
+#Number of Observations in each group
+  nSize <- c(30, 30)
+  
+#Mean of each group
+  nMean <- c(6.5, 3.5)
+  
+#Standard Deviation of each group
+  nSD <- c(0.125, 0.125)
+  
+#ID vector for each row
+  
+  ID <- 1:(sum(nSize))
+  resVar <- c(rnorm(n=nSize[1], mean=nMean[1], sd=nSD[1]),
+              rnorm(n=nSize[2], mean=nMean[2], sd=nSD[2]))
+  TGroup <- rep(nName, nSize)
+  ANOdata <- data.frame(ID,TGroup,resVar)
+  str(ANOdata)
+  
+#Plotting ANOVA data
+  
+  ANOplot <- ggplot(data=ANOdata,aes(x=TGroup, y=resVar, FILL=TGroup)) + 
+             geom_boxplot()
+  print(ANOplot)
+
+#Modeling ANOVA data
+
+  ANOmodel <- aov(resVar~TGroup, data = ANOdata)
+  print(ANOmodel)
+  print(summary(ANOmodel))
+  z <- summary(ANOmodel)
+  str(z)
+  
+#Basic ggplot of ANOVA data
+  
+  ANOPlot <- ggplot(data=ANOdata,aes(x=TGroup,y=resVar,fill=TGroup)) +
+           geom_boxplot()
+  print(ANOPlot)
+# ggsave(filename="Plot2.pdf",plot=ANOPlot,device="pdf")
+  
+```
+  
+
+# Run number 2 
+  
+```{r}
+  #Loading  ggplot2
+
+  library(ggplot2)
+
+#Number of treatment groups 
+  nGroup <- 2
+
+#Name of Groups 
+  nName <- c("Control", "ABA")
+  
+#Number of Observations in each group
+  nSize <- c(30, 30)
+  
+#Mean of each group
+  nMean <- c(6.5, 3.5)
+  
+#Standard Deviation of each group
+  nSD <- c(0.125, 0.125)
+  
+#ID vector for each row
+  
+  ID <- 1:(sum(nSize))
+  resVar <- c(rnorm(n=nSize[1], mean=nMean[1], sd=nSD[1]),
+              rnorm(n=nSize[2], mean=nMean[2], sd=nSD[2]))
+  TGroup <- rep(nName, nSize)
+  ANOdata <- data.frame(ID,TGroup,resVar)
+  str(ANOdata)
+  
+#Plotting ANOVA data
+  
+  ANOplot <- ggplot(data=ANOdata,aes(x=TGroup, y=resVar, FILL=TGroup)) + 
+             geom_boxplot()
+  print(ANOplot)
+
+#Modeling ANOVA data
+
+  ANOmodel <- aov(resVar~TGroup, data = ANOdata)
+  print(ANOmodel)
+  print(summary(ANOmodel))
+  z <- summary(ANOmodel)
+  str(z)
+  
+#Basic ggplot of ANOVA data
+  
+  ANOPlot <- ggplot(data=ANOdata,aes(x=TGroup,y=resVar,fill=TGroup)) +
+           geom_boxplot()
+  print(ANOPlot)
+# ggsave(filename="Plot2.pdf",plot=ANOPlot,device="pdf")
+
+```
+
+## Run Number 3
+
+```{r}
+
+  #Loading  ggplot2
+
+  library(ggplot2)
+
+#Number of treatment groups 
+  nGroup <- 2
+
+#Name of Groups 
+  nName <- c("Control", "ABA")
+  
+#Number of Observations in each group
+  nSize <- c(30, 30)
+  
+#Mean of each group
+  nMean <- c(6.5, 3.5)
+  
+#Standard Deviation of each group
+  nSD <- c(0.125, 0.125)
+  
+#ID vector for each row
+  
+  ID <- 1:(sum(nSize))
+  resVar <- c(rnorm(n=nSize[1], mean=nMean[1], sd=nSD[1]),
+              rnorm(n=nSize[2], mean=nMean[2], sd=nSD[2]))
+  TGroup <- rep(nName, nSize)
+  ANOdata <- data.frame(ID,TGroup,resVar)
+  str(ANOdata)
+  
+#Plotting ANOVA data
+  
+  ANOplot <- ggplot(data=ANOdata,aes(x=TGroup, y=resVar, FILL=TGroup)) + 
+             geom_boxplot()
+  print(ANOplot)
+
+#Modeling ANOVA data
+
+  ANOmodel <- aov(resVar~TGroup, data = ANOdata)
+  print(ANOmodel)
+  print(summary(ANOmodel))
+  z <- summary(ANOmodel)
+  str(z)
+  
+#Basic ggplot of ANOVA data
+  
+  ANOPlot <- ggplot(data=ANOdata,aes(x=TGroup,y=resVar,fill=TGroup)) +
+           geom_boxplot()
+  print(ANOPlot)
+# ggsave(filename="Plot2.pdf",plot=ANOPlot,device="pdf")
+
+```
+
+
