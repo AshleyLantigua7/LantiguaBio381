@@ -58,7 +58,7 @@ knitr::opts_chunk$set(echo = TRUE)
     
     #Choosing the DNA of the list 
     
-    DNA_DEG_List_[i] <- [[i]][str_detect([[i]], "gene-")]
+    DNA_DEG_List_[i] <- csvdata[i][str_detect(csvdata[i], "gene-")]
     
     DNA_DEG_List_[i] <- str_replace(DNA_DEG_List_[i], "gene-", "")
   
@@ -71,7 +71,7 @@ knitr::opts_chunk$set(echo = TRUE)
     
     #Choosing the DNA of the list 
     
-    RNA_DEG_List_[i] <- [[i]][str_detect([[i]], "rna-")]
+    RNA_DEG_List_[i] <- csvdata[i][str_detect(csvdata[i], "rna-")]
     
     RNA_DEG_List_[i] <- str_replace(RNA_DEG_List_[i], "rna-", "")
   
