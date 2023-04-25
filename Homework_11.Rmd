@@ -16,6 +16,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 
 #Setting Working Directory 
+
+  setwd("~/")
    
    setwd("Preston_Lab/DESeq_Project/VennDiagram_Results")
 
