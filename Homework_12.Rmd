@@ -1,0 +1,758 @@
+---
+title: "Homework_12"
+author: "Ashley Lantigua"
+date: "2023-04-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Determine Family Groups in the Pringle Herbarium
+
+```{r}
+
+#Loading Packages
+
+  library(dplyr)
+  library(ggplot2)
+
+# Setting the working directory 
+
+  setwd("~/BIO381")
+
+# Loading the csv
+
+  Pringle_Herbarium <- read.csv("Pringle_Herbarium.csv", header = T)
+
+# Creating object 
+
+  Pringle_Familycount <- dplyr::count(Pringle_Herbarium, family, sort = TRUE)
+  
+  colnames(Pringle_Familycount) <- c("Family", "Specimens")
+  
+  
+  Pringle_Family_5 <- dplyr::slice(Pringle_Familycount, 1:5) 
+    
+  Pringle_Family_10 <- dplyr::slice(Pringle_Familycount, 1:10)
+  
+  Pringle_Family_15 <- dplyr::slice(Pringle_Familycount, 1:15)
+  
+# Check the object 
+  
+  str(Pringle_Familycount)
+  
+  str(Pringle_Family_5)
+  
+  str(Pringle_Family_10)
+  
+  str(Pringle_Family_15)
+
+  
+# Setting Working directory 
+  
+  setwd("~/BIO381/LantiguaBio381/Plots")
+  
+#creating bargraph
+  
+  family_plot_5 <- ggplot(data=Pringle_Family_5, aes(x= Family, y= Specimens, fill = Family)) +
+  geom_bar(stat="identity") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust=0.5), text = element_text(size = 18)) 
+     
+
+  
+  family_plot_5
+  
+  ggsave("family_plot_5.png", width = 5, height = 5)
+  
+  
+  family_plot_10 <- ggplot(data=Pringle_Family_10, aes(x= Family, y= Specimens , fill = Family)) +
+  geom_bar(stat="identity") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust=0.5)) 
+     
+  
+  
+  family_plot_10
+  
+   ggsave("family_plot_10.png", width = 10, height = 10)
+  
+  
+  family_plot_15 <- ggplot(data=Pringle_Family_15, aes(x= Family, y= Specimens, fill = Family)) +
+  geom_bar(stat="identity") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust=0.5)) 
+     
+  
+  family_plot_15
+
+  # Setting Working directory 
+  
+  setwd("~/BIO381/LantiguaBio381/Plots")
+  
+   ggsave("family_plot_15.png", width = 15, height = 15)
+  
+  
+```
+
+# Determine the Top 5/10 Genus of the Top 5 Families 
+
+## Asteraceae
+
+
+```{r}
+
+# Loading the needed stuff 
+
+  library(dplyr)
+  library(ggplot2)
+  library(packcircles)
+
+# Select Asteraceae Family 
+
+
+  Pringle_Asteraceae_Count <- Pringle_Herbarium %>% filter(grepl('Asteraceae', family))
+  
+  Pringle_Asteraceae_Count <- dplyr::count(Pringle_Asteraceae_Count, genus, sort = TRUE)
+  
+  colnames(Pringle_Asteraceae_Count) <- c("Genus", "Specimens")
+  
+  str(Pringle_Asteraceae_Count)
+  
+  Pringle_Asteraceae_5 <- dplyr::slice(Pringle_Asteraceae_Count, 1:5) 
+    
+  Pringle_Asteraceae_10 <- dplyr::slice(Pringle_Asteraceae_Count, 1:10)
+  
+  Pringle_Asteraceae_5
+  
+  Pringle_Asteraceae_10
+  
+# Creating the circle packing
+  
+  Asteraceae_5_Packing <- circleProgressiveLayout(Pringle_Asteraceae_5 $Specimens, sizetype='area')
+  
+  Asteraceae_5_data <- cbind(Pringle_Asteraceae_5, Asteraceae_5_Packing)
+  
+  Asteraceae_5_data_gg <- circleLayoutVertices(Asteraceae_5_Packing, npoints=50)
+
+  
+#Make the plot 
+  
+ Asteraceae_Bubbles_5 <- ggplot() +
+    
+     # Make the bubbles
+    
+  geom_polygon(data = Asteraceae_5_data_gg, aes(x, y, group = id, fill=as.factor(id))) +
+  
+  # Add text in the center of each bubble + control its size
+  geom_text(data = Asteraceae_5_data, aes(x, y, label = Genus)) +
+  
+  
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+ 
+ Asteraceae_Bubbles_5
+ 
+   # Setting Working directory 
+  
+  setwd("~/BIO381/LantiguaBio381/Plots")
+  
+   ggsave("Asteraceae_Bubbles_5.png", width = 10, height = 10)
+ 
+#Asteraceae_10 
+ 
+ # Creating the circle packing
+  
+  Asteraceae_10_Packing <- circleProgressiveLayout(Pringle_Asteraceae_10 $Specimens, sizetype='area')
+  
+  Asteraceae_10_data <- cbind(Pringle_Asteraceae_10, Asteraceae_10_Packing)
+  
+  Asteraceae_10_data_gg <- circleLayoutVertices(Asteraceae_10_Packing, npoints=50)
+
+  
+#Make the plot 
+  
+ Asteraceae_Bubbles_10 <- ggplot() +
+    
+     # Make the bubbles
+    
+  geom_polygon(data = Asteraceae_10_data_gg, aes(x, y, group = id, fill=as.factor(id))) +
+  
+  # Add text in the center of each bubble + control its size
+  geom_text(data = Asteraceae_10_data, aes(x, y, label = Genus)) +
+  
+  
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+ 
+ Asteraceae_Bubbles_10
+ 
+    # Setting Working directory 
+  
+  setwd("~/BIO381/LantiguaBio381/Plots")
+  
+   ggsave("Asteraceae_Bubbles_10.png", width = 10, height = 10)
+
+```
+
+## Cyperaceae
+
+```{r}
+
+# Loading the needed stuff 
+
+  library(dplyr)
+  library(ggplot2)
+  library(packcircles)
+
+# Select Asteraceae Family 
+
+
+  Pringle_Cyperaceae_Count <- Pringle_Herbarium %>% filter(grepl('Cyperaceae', family))
+  
+  Pringle_Cyperaceae_Count <- dplyr::count(Pringle_Cyperaceae_Count, genus, sort = TRUE)
+  
+  colnames(Pringle_Cyperaceae_Count) <- c("Genus", "Specimens")
+  
+  str(Pringle_Cyperaceae_Count)
+  
+  Pringle_Cyperaceae_5 <- dplyr::slice(Pringle_Cyperaceae_Count, 1:5) 
+    
+  Pringle_Cyperaceae_10 <- dplyr::slice(Pringle_Cyperaceae_Count, 1:10)
+  
+  Pringle_Cyperaceae_5
+  
+  Pringle_Cyperaceae_10
+  
+# Creating the circle packing
+  
+  Cyperaceae_5_Packing <- circleProgressiveLayout(Pringle_Cyperaceae_5 $Specimens, sizetype='area')
+  
+  Cyperaceae_5_data <- cbind(Pringle_Cyperaceae_5, Cyperaceae_5_Packing)
+  
+  Cyperaceae_5_data_gg <- circleLayoutVertices(Cyperaceae_5_Packing, npoints=50)
+
+  
+#Make the plot 
+  
+ Cyperaceae_Bubbles_5 <- ggplot() +
+    
+     # Make the bubbles
+    
+  geom_polygon(data = Cyperaceae_5_data_gg, aes(x, y, group = id, fill=as.factor(id))) +
+  
+  # Add text in the center of each bubble + control its size
+  geom_text(data = Cyperaceae_5_data, aes(x, y, label = Genus)) +
+  
+  
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+ 
+ Cyperaceae_Bubbles_5
+ 
+    # Setting Working directory 
+  
+  setwd("~/BIO381/LantiguaBio381/Plots")
+  
+   ggsave("Cyperaceae_Bubbles_5.png", width = 10, height = 10)
+ 
+#Cyperaceae_10 
+ 
+ # Creating the circle packing
+  
+  Cyperaceae_10_Packing <- circleProgressiveLayout(Pringle_Cyperaceae_10 $Specimens, sizetype='area')
+  
+  Cyperaceae_10_data <- cbind(Pringle_Cyperaceae_10, Cyperaceae_10_Packing)
+  
+  Cyperaceae_10_data_gg <- circleLayoutVertices(Cyperaceae_10_Packing, npoints=50)
+
+  
+#Make the plot 
+  
+ Cyperaceae_Bubbles_10 <- ggplot() +
+    
+     # Make the bubbles
+    
+  geom_polygon(data = Cyperaceae_10_data_gg, aes(x, y, group = id, fill=as.factor(id))) +
+  
+  # Add text in the center of each bubble + control its size
+  geom_text(data = Cyperaceae_10_data, aes(x, y, label = Genus)) +
+  
+  
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+ 
+ Cyperaceae_Bubbles_10
+ 
+    # Setting Working directory 
+  
+  setwd("~/BIO381/LantiguaBio381/Plots")
+  
+   ggsave("Cyperaceae_Bubbles_10.png", width = 10, height = 10)
+
+```
+
+## Fabaceae
+
+```{r}
+
+# Loading the needed stuff 
+
+  library(dplyr)
+  library(ggplot2)
+  library(packcircles)
+
+# Select Fabaceae Family 
+
+
+  Pringle_Fabaceae_Count <- Pringle_Herbarium %>% filter(grepl('Fabaceae', family))
+  
+  Pringle_Fabaceae_Count <- dplyr::count(Pringle_Fabaceae_Count, genus, sort = TRUE)
+  
+  colnames(Pringle_Fabaceae_Count) <- c("Genus", "Specimens")
+  
+  str(Pringle_Fabaceae_Count)
+  
+  Pringle_Fabaceae_5 <- dplyr::slice(Pringle_Fabaceae_Count, 1:5) 
+    
+  Pringle_Fabaceae_10 <- dplyr::slice(Pringle_Fabaceae_Count, 1:10)
+  
+  Pringle_Fabaceae_5
+  
+  Pringle_Fabaceae_10
+  
+# Creating the circle packing
+  
+  Fabaceae_5_Packing <- circleProgressiveLayout(Pringle_Fabaceae_5 $Specimens, sizetype='area')
+  
+  Fabaceae_5_data <- cbind(Pringle_Fabaceae_5, Fabaceae_5_Packing)
+  
+  Fabaceae_5_data_gg <- circleLayoutVertices(Fabaceae_5_Packing, npoints=50)
+
+  
+#Make the plot 
+  
+ Fabaceae_Bubbles_5 <- ggplot() +
+    
+     # Make the bubbles
+    
+  geom_polygon(data = Fabaceae_5_data_gg, aes(x, y, group = id, fill=as.factor(id))) +
+  
+  # Add text in the center of each bubble + control its size
+  geom_text(data = Fabaceae_5_data, aes(x, y, label = Genus)) +
+  
+  
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+ 
+ Fabaceae_Bubbles_5
+ 
+    # Setting Working directory 
+  
+  setwd("~/BIO381/LantiguaBio381/Plots")
+  
+   ggsave("Fabaceae_Bubbles_5.png", width = 10, height = 10)
+ 
+#Fabaceae_10 
+ 
+ # Creating the circle packing
+  
+  Fabaceae_10_Packing <- circleProgressiveLayout(Pringle_Fabaceae_10 $Specimens, sizetype='area')
+  
+  Fabaceae_10_data <- cbind(Pringle_Fabaceae_10, Fabaceae_10_Packing)
+  
+  Fabaceae_10_data_gg <- circleLayoutVertices(Fabaceae_10_Packing, npoints=50)
+
+  
+#Make the plot 
+  
+ Fabaceae_Bubbles_10 <- ggplot() +
+    
+     # Make the bubbles
+    
+  geom_polygon(data = Fabaceae_10_data_gg, aes(x, y, group = id, fill=as.factor(id))) +
+  
+  # Add text in the center of each bubble + control its size
+  geom_text(data = Fabaceae_10_data, aes(x, y, label = Genus)) +
+  
+  
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+ 
+ Fabaceae_Bubbles_10
+ 
+    # Setting Working directory 
+  
+  setwd("~/BIO381/LantiguaBio381/Plots")
+  
+   ggsave("Fabaceae_Bubbles_10.png", width = 10, height = 10)
+
+```
+
+
+## Poaceae
+
+
+```{r}
+
+# Loading the needed stuff 
+
+  library(dplyr)
+  library(ggplot2)
+  library(packcircles)
+
+# Select Poaceae Family 
+
+
+  Pringle_Poaceae_Count <- Pringle_Herbarium %>% filter(grepl('Poaceae', family))
+  
+  Pringle_Poaceae_Count <- dplyr::count(Pringle_Poaceae_Count, genus, sort = TRUE)
+  
+  colnames(Pringle_Poaceae_Count) <- c("Genus", "Specimens")
+  
+  str(Pringle_Poaceae_Count)
+  
+  Pringle_Poaceae_5 <- dplyr::slice(Pringle_Poaceae_Count, 1:5) 
+    
+  Pringle_Poaceae_10 <- dplyr::slice(Pringle_Poaceae_Count, 1:10)
+  
+  Pringle_Poaceae_5
+  
+  Pringle_Poaceae_10
+  
+# Creating the circle packing
+  
+  Poaceae_5_Packing <- circleProgressiveLayout(Pringle_Poaceae_5 $Specimens, sizetype='area')
+  
+  Poaceae_5_data <- cbind(Pringle_Poaceae_5, Poaceae_5_Packing)
+  
+  Poaceae_5_data_gg <- circleLayoutVertices(Poaceae_5_Packing, npoints=50)
+
+  
+#Make the plot 
+  
+ Poaceae_Bubbles_5 <- ggplot() +
+    
+     # Make the bubbles
+    
+  geom_polygon(data = Poaceae_5_data_gg, aes(x, y, group = id, fill=as.factor(id))) +
+  
+  # Add text in the center of each bubble + control its size
+  geom_text(data = Poaceae_5_data, aes(x, y, label = Genus)) +
+  
+  
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+ 
+ Poaceae_Bubbles_5
+ 
+    # Setting Working directory 
+  
+  setwd("~/BIO381/LantiguaBio381/Plots")
+  
+   ggsave("Poaceae_Bubbles_5.png", width = 10, height = 10)
+ 
+#Poaceae_10 
+ 
+ # Creating the circle packing
+  
+  Poaceae_10_Packing <- circleProgressiveLayout(Pringle_Poaceae_10 $Specimens, sizetype='area')
+  
+  Poaceae_10_data <- cbind(Pringle_Poaceae_10, Poaceae_10_Packing)
+  
+  Poaceae_10_data_gg <- circleLayoutVertices(Poaceae_10_Packing, npoints=50)
+
+  
+#Make the plot 
+  
+ Poaceae_Bubbles_10 <- ggplot() +
+    
+     # Make the bubbles
+    
+  geom_polygon(data = Poaceae_10_data_gg, aes(x, y, group = id, fill=as.factor(id))) +
+  
+  # Add text in the center of each bubble + control its size
+  geom_text(data = Poaceae_10_data, aes(x, y, label = Genus)) +
+  
+  
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+ 
+ Poaceae_Bubbles_10
+ 
+   # Setting Working directory 
+  
+  setwd("~/BIO381/LantiguaBio381/Plots")
+  
+   ggsave("Poaceae_Bubbles_10.png", width = 10, height = 10)
+   
+```
+
+
+## Rosaceae
+
+
+```{r}
+
+# Loading the needed stuff 
+
+  library(dplyr)
+  library(ggplot2)
+  library(packcircles)
+
+# Select Rosaceae Family 
+
+
+  Pringle_Rosaceae_Count <- Pringle_Herbarium %>% filter(grepl('Rosaceae', family))
+  
+  Pringle_Rosaceae_Count <- dplyr::count(Pringle_Rosaceae_Count, genus, sort = TRUE)
+  
+  colnames(Pringle_Rosaceae_Count) <- c("Genus", "Specimens")
+  
+  str(Pringle_Rosaceae_Count)
+  
+  Pringle_Rosaceae_5 <- dplyr::slice(Pringle_Rosaceae_Count, 1:5) 
+    
+  Pringle_Rosaceae_10 <- dplyr::slice(Pringle_Rosaceae_Count, 1:10)
+  
+  Pringle_Rosaceae_5
+  
+  Pringle_Rosaceae_10
+  
+# Creating the circle packing
+  
+  Rosaceae_5_Packing <- circleProgressiveLayout(Pringle_Rosaceae_5 $Specimens, sizetype='area')
+  
+  Rosaceae_5_data <- cbind(Pringle_Rosaceae_5, Rosaceae_5_Packing)
+  
+  Rosaceae_5_data_gg <- circleLayoutVertices(Rosaceae_5_Packing, npoints=50)
+
+  
+#Make the plot 
+  
+ Rosaceae_Bubbles_5 <- ggplot() +
+    
+     # Make the bubbles
+    
+  geom_polygon(data = Rosaceae_5_data_gg, aes(x, y, group = id, fill=as.factor(id))) +
+  
+  # Add text in the center of each bubble + control its size
+  geom_text(data = Rosaceae_5_data, aes(x, y, label = Genus)) +
+  
+  
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+ 
+ Rosaceae_Bubbles_5
+ 
+    # Setting Working directory 
+  
+  setwd("~/BIO381/LantiguaBio381/Plots")
+  
+   ggsave("Rosaceae_Bubbles_5.png", width = 10, height = 10)
+ 
+#Rosaceae_10 
+ 
+ # Creating the circle packing
+  
+  Rosaceae_10_Packing <- circleProgressiveLayout(Pringle_Rosaceae_10 $Specimens, sizetype='area')
+  
+  Rosaceae_10_data <- cbind(Pringle_Rosaceae_10, Rosaceae_10_Packing)
+  
+  Rosaceae_10_data_gg <- circleLayoutVertices(Rosaceae_10_Packing, npoints=50)
+
+  
+#Make the plot 
+  
+ Rosaceae_Bubbles_10 <- ggplot() +
+    
+     # Make the bubbles
+    
+  geom_polygon(data = Rosaceae_10_data_gg, aes(x, y, group = id, fill=as.factor(id))) +
+  
+  # Add text in the center of each bubble + control its size
+  geom_text(data = Rosaceae_10_data, aes(x, y, label = Genus)) +
+  
+  
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+ 
+ Rosaceae_Bubbles_10
+ 
+ # Setting Working directory 
+  
+  setwd("~/BIO381/LantiguaBio381/Plots")
+  
+   ggsave("Rosaceae_Bubbles_10.png", width = 10, height = 10)
+
+```
+
+
+# Genera Count 
+
+
+```{r}
+# Loading the needed stuff 
+
+  library(dplyr)
+  library(ggplot2)
+  library(packcircles)
+
+# Select Full Genera
+
+
+  Pringle_Genera_Count <- dplyr::count(Pringle_Herbarium, genus, sort = TRUE)
+  
+  colnames(Pringle_Genera_Count) <- c("Genus", "Specimens")
+  
+  str(Pringle_Genera_Count)
+  
+  Pringle_Genera_5 <- dplyr::slice(Pringle_Genera_Count, c(1, 3:6)) 
+    
+  Pringle_Genera_10 <- dplyr::slice(Pringle_Genera_Count, c(1, 3:11))
+  
+  Pringle_Genera_5
+  
+  Pringle_Genera_10
+  
+# Creating the circle packing
+  
+  Genera_5_Packing <- circleProgressiveLayout(Pringle_Genera_5 $Specimens, sizetype='area')
+  
+  Genera_5_data <- cbind(Pringle_Genera_5, Genera_5_Packing)
+  
+  Genera_5_data_gg <- circleLayoutVertices(Genera_5_Packing, npoints=50)
+
+  
+#Make the plot 
+  
+ Genera_Bubbles_5 <- ggplot() +
+    
+     # Make the bubbles
+    
+  geom_polygon(data = Genera_5_data_gg, aes(x, y, group = id, fill=as.factor(id))) +
+  
+  # Add text in the center of each bubble + control its size
+  geom_text(data = Genera_5_data, aes(x, y, label = Genus), size = 10 ) +
+  
+  
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+ 
+ Genera_Bubbles_5
+ 
+    # Setting Working directory 
+  
+  setwd("~/BIO381/LantiguaBio381/Plots")
+  
+   ggsave("Genera_Bubbles_5.png", width = 10, height = 10)
+ 
+#Genera_10 
+ 
+ # Creating the circle packing
+  
+  Genera_10_Packing <- circleProgressiveLayout(Pringle_Genera_10 $Specimens, sizetype='area')
+  
+  Genera_10_data <- cbind(Pringle_Genera_10, Genera_10_Packing)
+  
+  Genera_10_data_gg <- circleLayoutVertices(Genera_10_Packing, npoints=50)
+
+  
+#Make the plot 
+  
+ Genera_Bubbles_10 <- ggplot() +
+    
+     # Make the bubbles
+    
+  geom_polygon(data = Genera_10_data_gg, aes(x, y, group = id, fill=as.factor(id))) +
+  
+  # Add text in the center of each bubble + control its size
+  geom_text(data = Genera_10_data, aes(x, y, label = Genus)) +
+  
+  
+  # General theme:
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+ 
+ Genera_Bubbles_10
+ 
+ # Setting Working directory 
+  
+  setwd("~/BIO381/LantiguaBio381/Plots")
+  
+   ggsave("Genera_Bubbles_10.png", width = 10, height = 10)
+
+```
+
+## Creating a time line of sample collection 
+
+```{r}
+
+# Loading the needed stuff 
+
+  library(dplyr)
+  library(ggplot2)
+  library(hrbrthemes)
+
+
+# creating the object for time 
+
+  #str(Pringle_Herbarium)
+  
+  #Pringle_Herbarium$year <- as.character(Pringle_Herbarium$year)
+
+  Pringle_Years <- dplyr::count(Pringle_Herbarium, year)
+
+  Pringle_Years <- dplyr::slice(Pringle_Years, 29:238)
+  
+  colnames(Pringle_Years) <- c("Year", "Specimens")
+  
+  str(Pringle_Years)
+
+
+# Plot
+  Pringle_Years_Lineplot <- ggplot(Pringle_Years, aes(x= Year, y= Specimens)) +
+    geom_line( color="#69b3a2", size=3, alpha=0.9, linetype=1) +
+    theme_minimal() +
+    ggtitle("Years Collected") +
+    ylim(0, 9500) +
+    xlim(1850, 2023) +
+    geom_text(data = Genera_5_data, aes(x, y, label = Genus), size = 100, color = "black" ) +
+    theme(text = element_text(size = 30, color = "black"))
+    
+    #scale_x_continuous(breaks = seq(1850, 2023, 5))
+  
+  Pringle_Years_Lineplot
+    
+  
+  setwd("~/BIO381/LantiguaBio381/Plots")
+  
+  ggsave("Pringle_Years_Lineplot.png", width = 10, height = 10)
+  
+
+```
