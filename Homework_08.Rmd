@@ -90,6 +90,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Running analysis multiple times 
 
+# Run number 1
+
 ```{r}
 
 #Run number 1 
@@ -200,7 +202,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
-## Run Number 3
+# Run Number 3
 
 ```{r}
 
@@ -258,7 +260,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Trying out different means and differences between the groups 
 
-## Testing difference of 1
+# Testing difference of 1
 
 ```{r}
 
@@ -315,7 +317,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
-## Testing difference of 0.5
+# Testing difference of 0.5
 
 ```{r}
 
@@ -374,7 +376,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
-## Testing difference of 0.05
+# Testing difference of 0.05
 
 ```{r}
 
@@ -434,7 +436,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Testing difference of 0.06
+# Testing difference of 0.06
 
 ```{r}
 
@@ -493,13 +495,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
-## For the means, the smallest the difference can be that it can be considered significant (p < 0.05) is 0.06. This is quite a small number. 
+# For the means, the smallest the difference can be that it can be considered significant (p < 0.05) is 0.06. This is quite a small number. 
 
 
 
-### With the Effect Size chosen, what is the minimum sample size would need to be statistically significant 
+## With the Effect Size chosen, what is the minimum sample size would need to be statistically significant 
 
-## Testing sample size of 50
+# Testing sample size of 50
 
 ```{r}
 
@@ -557,7 +559,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Testing sample size of 40
+# Testing sample size of 40
 
 ```{r}
 
@@ -615,7 +617,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Testing sample size of 35
+# Testing sample size of 35
 
 ```{r}
 
@@ -672,7 +674,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
-## Testing sample size of 37
+# Testing sample size of 37
 
 ```{r}
 
@@ -730,7 +732,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Testing sample size of 36
+# Testing sample size of 36
 
 ```{r}
 
@@ -789,7 +791,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
-## The smallest sample size needed to get a significant differences is a sample size of 35. 
+# The smallest sample size needed to get a significant differences is a sample size of 35. 
 
 
 ## Running the randomization two more times 
@@ -852,7 +854,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-#2
+# Run 2
 
 ```{r}
 
@@ -910,7 +912,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-#run #3
+# run 3
 
 ```{r}
 
@@ -968,4 +970,4 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## When looking at the randomization every so often sometimes you get a p value that is not statistically significant. 
+# When looking at the randomization every so often sometimes you get a p value that is not statistically significant. 
