@@ -739,7 +739,6 @@ knitr::opts_chunk$set(echo = TRUE)
   Pringle_Years_Lineplot <- ggplot(Pringle_Years, aes(x= Year, y= Specimens)) +
     geom_line( color="#69b3a2", size=3, alpha=0.9, linetype=1) +
     theme_minimal() +
-    ggtitle("Years Collected") +
     ylim(0, 9500) +
     xlim(1850, 2023) +
     geom_text(data = Genera_5_data, aes(x, y, label = Genus), size = 100, color = "black" ) +
@@ -756,3 +755,122 @@ knitr::opts_chunk$set(echo = TRUE)
   
 
 ```
+
+
+
+## Months collected 
+
+```{r}
+
+# Loading the needed stuff 
+
+  library(dplyr)
+  library(ggplot2)
+  library(tidyverse)
+
+# Creating Month Object 
+
+  Pringle_Months <- dplyr::count(Pringle_Herbarium, month)
+  
+  Pringle_Months <- dplyr::slice(Pringle_Months, 2:13)
+  
+  colnames(Pringle_Months) <- c("Month", "Specimens")
+  
+  Pringle_Months
+  
+  Pringle_Month_Plot <- ggplot(Pringle_Months) +
+  # Make custom panel grid
+  #geom_hline(
+    #aes(yintercept = y), 
+    #data.frame(y = c(0:3) * 1000),
+    #color = "lightgrey"
+  #) + 
+  # Add bars to represent the cumulative track lengths
+  # str_wrap(region, 5) wraps the text so each line has at most 5 characters
+  # (but it doesn't break long words!)
+  geom_col(
+    aes(
+      x = Month,
+      y = Specimens,
+      fill = Specimens
+    ),
+    #position = "dodge2",
+    show.legend = TRUE,
+    alpha = 0.9
+  ) + scale_fill_gradient(low="blue",high="red") +
+    
+    scale_x_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)) +
+    theme_minimal()+
+    theme(text = element_text(size = 30, color = "black"))+
+
+  coord_polar()
+
+  Pringle_Month_Plot
+  
+    setwd("~/BIO381/LantiguaBio381/Plots")
+  
+  ggsave("Pringle_Month_Plot.png", width = 10, height = 10)
+
+
+```
+
+#
+
+```{r}
+
+# Loading the needed stuff 
+
+  library(dplyr)
+  library(ggplot2)
+  library(tidyverse)
+
+# Creating Month Object 
+
+  Pringle_Phylum <- dplyr::count(Pringle_Herbarium, phylum, sort = TRUE)
+  
+  Pringle_Phylum <- dplyr::slice(Pringle_Phylum, c(1:4))
+  
+  colnames(Pringle_Phylum) <- c("Phylum", "Specimens")
+  
+  Pringle_Phylum
+  
+  # load library
+library(ggplot2)
+ 
+# Compute percentages
+Pringle_Phylum$fraction = Pringle_Phylum$Specimen / sum(Pringle_Phylum$Specimen)
+
+# Compute the cumulative percentages (top of each rectangle)
+Pringle_Phylum$ymax = cumsum(Pringle_Phylum$fraction)
+
+# Compute the bottom of each rectangle
+Pringle_Phylum$ymin = c(0, head(Pringle_Phylum$ymax, n=-1))
+
+# Compute label position
+Pringle_Phylum$labelPosition <- (Pringle_Phylum$ymax + Pringle_Phylum$ymin) / 2
+
+# Compute a good label
+Pringle_Phylum$label <- paste0(Pringle_Phylum$Phylum, "\n value: ", Pringle_Phylum$Specimens)
+
+ 
+# Make the plot
+Pringle_Phylum_Doughnut <- ggplot(Pringle_Phylum, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Phylum)) +
+     geom_rect() +
+     coord_polar(theta="y") + # Try to remove that to understand how the chart is built initially
+     xlim(c(2, 4)) +
+  theme_void()+# Try to remove that to see how to make a pie chartX
+   theme(text = element_text(size = 30, color = "black"))
+
+Pringle_Phylum_Doughnut
+
+
+    setwd("~/BIO381/LantiguaBio381/Plots")
+  
+  ggsave("Pringle_Phylum_Doughnut.png", width = 10, height = 10)
+
+
+```
+
+
+
+

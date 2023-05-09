@@ -9,6 +9,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## 1 and 2: Running the given data and my chosen data 
+    ## Find the best-fitting distribution
 ## Data Used for this experiment
 
 ## Paper: Root Trait Responses to Drought Are More Heterogenous than Leaf Trait Responses 
@@ -21,21 +23,40 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(ggplot2) # for graphics
 library(MASS) # for maximum likelihood estimation
+library(tidyr)
 
 #read the data csv
+  
+  
 
-#z <- read.table("MyDataFile.csv",header=TRUE,sep=",")
-#str(z)
+  setwd("~/BIO381")
+
+  shootmass <- read.table("traits_25grasslands.csv",header=TRUE,sep=",")
+  
+  shootmass <- shootmass$shootmass
+ 
+  str(shootmass)
+
+  
+ #str(shootmass)
+  
+  
 #summary(z)
 
 # quick and dirty, a truncated normal distribution to work on the solution set
 
-z <- rnorm(n=3000,mean=0.2)
-z <- data.frame(1:3000,z)
-names(z) <- list("ID","myVar")
-z <- z[z$myVar>0,]
-str(z)
-summary(z$myVar)
+  #z <- rnorm(n=3000,mean=0.2)
+  shootmass <- data.frame(1:236,shootmass)
+  shootmass <- shootmass %>% drop_na()
+  
+  str(shootmass)
+  
+  names(shootmass) <- list("ID","myVar")
+  shootmass <- shootmass[shootmass$myVar>0,]
+  shootmass <- shootmass %>% drop_na()
+  
+  str(shootmass)
+  summary(shootmass$myVar)
 
 ```
 
@@ -46,7 +67,7 @@ summary(z$myVar)
 library(ggplot2) # for graphics
 library(MASS) # for maximum likelihood estimation
 
-p1 <- ggplot(data=z, aes(x=myVar, y=..density..)) +
+p1 <- ggplot(data=shootmass, aes(x=myVar, y=..density..)) +
   geom_histogram(color="grey60",fill="cornsilk",size=0.2) 
 print(p1)
 
@@ -72,7 +93,7 @@ print(p1)
 library(ggplot2) # for graphics
 library(MASS) # for maximum likelihood estimation
 
-normPars <- fitdistr(z$myVar,"normal")
+normPars <- fitdistr(shootmass$myVar,"normal")
 print(normPars)
 str(normPars)
 normPars$estimate["mean"] # note structure of getting a named attribute
@@ -89,9 +110,9 @@ library(MASS) # for maximum likelihood estimation
 meanML <- normPars$estimate["mean"]
 sdML <- normPars$estimate["sd"]
 
-xval <- seq(0,max(z$myVar),len=length(z$myVar))
+xval <- seq(0,max(shootmass$myVar),len=length(shootmass$myVar))
 
- stat <- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour="red", n = length(z$myVar), args = list(mean = meanML, sd = sdML))
+ stat <- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour="red", n = length(shootmass$myVar), args = list(mean = meanML, sd = sdML))
  p1 + stat
 
 ```
@@ -103,10 +124,10 @@ xval <- seq(0,max(z$myVar),len=length(z$myVar))
 library(ggplot2) # for graphics
 library(MASS) # for maximum likelihood estimation
 
-expoPars <- fitdistr(z$myVar,"exponential")
+expoPars <- fitdistr(shootmass$myVar,"exponential")
 rateML <- expoPars$estimate["rate"]
 
-stat2 <- stat_function(aes(x = xval, y = ..y..), fun = dexp, colour="blue", n = length(z$myVar), args = list(rate=rateML))
+stat2 <- stat_function(aes(x = xval, y = ..y..), fun = dexp, colour="blue", n = length(shootmass$myVar), args = list(rate=rateML))
  p1 + stat + stat2
  
 ```
@@ -118,7 +139,7 @@ stat2 <- stat_function(aes(x = xval, y = ..y..), fun = dexp, colour="blue", n = 
 library(ggplot2) # for graphics
 library(MASS) # for maximum likelihood estimation
 
-stat3 <- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour="darkgreen", n = length(z$myVar), args = list(min=min(z$myVar), max=max(z$myVar)))
+stat3 <- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour="darkgreen", n = length(shootmass$myVar), args = list(min=min(shootmass$myVar), max=max(shootmass$myVar)))
  p1 + stat + stat2 + stat3
  
 ```
@@ -130,12 +151,15 @@ stat3 <- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour="darkgreen"
 
 library(ggplot2) # for graphics
 library(MASS) # for maximum likelihood estimation
+#library(fitdistrplus)
 
-gammaPars <- fitdistr(z$myVar,"gamma")
+
+gammaPars <- fitdistr(shootmass$myVar,"gamma", lower=c(0.00105,0.00105))
+
 shapeML <- gammaPars$estimate["shape"]
 rateML <- gammaPars$estimate["rate"]
 
-stat4 <- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour="brown", n = length(z$myVar), args = list(shape=shapeML, rate=rateML))
+stat4 <- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour="brown", n = length(shootmass$myVar), args = list(shape=shapeML, rate=rateML))
  p1 + stat + stat2 + stat3 + stat4
  
 ```
@@ -147,26 +171,96 @@ stat4 <- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour="brown", n
 library(ggplot2) # for graphics
 library(MASS) # for maximum likelihood estimation
 
-pSpecial <- ggplot(data=z, aes(x=myVar/(max(myVar + 0.1)), y=..density..)) +
-  geom_histogram(color="grey60",fill="cornsilk",size=0.2) + 
-  xlim(c(0,1)) +
-  geom_density(size=0.75,linetype="dotted")
+#pSpecial <- ggplot(data=shootmass, aes(x=myVar/(max(myVar + 0.1)), y=..density..)) +
+  #geom_histogram(color="grey60",fill="cornsilk",size=0.2) + 
+  #xlim(c(0,1)) +
+  #geom_density(size=0.75,linetype="dotted")
 
-betaPars <- fitdistr(x=z$myVar/max(z$myVar + 0.1),start=list(shape1=1,shape2=2),"beta")
-shape1ML <- betaPars$estimate["shape1"]
-shape2ML <- betaPars$estimate["shape2"]
+#betaPars <- fitdistr(x=shootmass$myVar/max(shootmass$myVar + 0.1),start=list(shape1=1,shape2=2),"beta")
+#shape1ML <- betaPars$estimate["shape1"]
+#shape2ML <- betaPars$estimate["shape2"]
 
-statSpecial <- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour="orchid", n = length(z$myVar), args = list(shape1=shape1ML,shape2=shape2ML))
-pSpecial + statSpecial
+#statSpecial <- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour="orchid", n = length(shootmass$myVar), args = list(shape1=shape1ML,shape2=shape2ML))
+#pSpecial + statSpecial
+
+```
+
+## 3: Simulate data and 
+
+
+```{r}
+
+# now do the same for a gamma distribution, which has a shape and rate parameter as outputs from fitdistr
+
+  gammaPars <- fitdistr(shootmass$myVar,"gamma", lower=c(0.00105,0.00105))
+
+shapeML <- gammaPars$estimate["shape"]
+rateML <- gammaPars$estimate["rate"]
+  
+   z<- fitdistr(shootmass$myVar,"gamma",lower=c(0.00105,0.00105))
+   
+   print(z)
+
+  shapeML <- z$estimate["shape"]
+  rateML <- z$estimate["rate"]
+  
+  
+  g_sim <- rgamma(n=236, shape = shapeML, rate = rateML)
+  
+  str(g_sim)
+  
+    g_sim <- data.frame(1:236,g_sim)
+    
+    str(g_sim)
+  
+    g_sim <- g_sim %>% drop_na()
+  
+    str(g_sim)
+  
+    names(g_sim) <- list("id","myVar")
+  #g_density <- dgamma(x=, shape = shapeML, scale = rateML)
+#qplot(x,g_density,geom="line") + annotate(geom="point",x=frog_data,y=0.001,color="red")  
+  
+  g_sim_hist <- ggplot(data=g_sim, aes(x=myVar, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2) +
+     geom_line(aes(x=myVar, y=dgamma(myVar, shape = shapeML, rate = rateML)), color="red", size = 1) +
+    scale_x_continuous(limits = c(0,25000), breaks = c(5000, 10000, 15000, 20000, 25000))
+    
+     
+    #stat4 <- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour="brown", n = length(g_sim$myVar), args = list(shape=shapeML, rate=rateML))
+    
+  
+  
+  plot(g_sim_hist)
+  
+
+  p1 + stat4
+ 
+  #plot(density(g_sim)) 
+  
+  #plot(g_density)
+  
+  
+
+
+# plot the density function for the gamma and annotate the plot with the original data
+
+#g_density <- dgamma(x=x,shape=z$estimate["shape"],rate=z$estimate["rate"])
+#qplot(x,g_density,geom="line") + annotate(geom="point",x=frog_data,y=0.001,color="red")   
 
 ```
 
 
 ## Questions: 
 
-# How do the two histogram profiles compare? Do you think the model is doing a good job of # # simulating realistic data that match your original measurements? Why or why not?
+# How do the two histogram profiles compare?
 
-# If you have entered a large data frame with many columns, try running all of the code on a different variable to see how the simulation performs.
+# The two histogram profiles have the same shape and range.
+
+#Do you think the model is doing a good job of simulating realistic data that match your original measurements? Why or why not?
+
+The model does a good job of simulating the original data, as the shape and range are similar. 
+
 
 
 
