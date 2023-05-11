@@ -253,13 +253,13 @@ rateML <- gammaPars$estimate["rate"]
 
 ## Questions: 
 
-# How do the two histogram profiles compare?
+## How do the two histogram profiles compare?
 
-# The two histogram profiles have the same shape and range.
+### The two histogram profiles have the same shape and range.
 
-#Do you think the model is doing a good job of simulating realistic data that match your original measurements? Why or why not?
+## Do you think the model is doing a good job of simulating realistic data that match your original measurements? Why or why not?
 
-The model does a good job of simulating the original data, as the shape and range are similar. 
+### The model does a good job of simulating the original data, as the shape and range are similar. 
 
 
 
