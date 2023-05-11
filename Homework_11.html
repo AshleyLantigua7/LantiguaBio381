@@ -11,7 +11,7 @@
 
 <meta name="author" content="Ashley Lantigua" />
 
-<meta name="date" content="2023-04-12" />
+<meta name="date" content="2023-05-11" />
 
 <title>Homework_11</title>
 
@@ -352,21 +352,150 @@ display: none;
 
 <h1 class="title toc-ignore">Homework_11</h1>
 <h4 class="author">Ashley Lantigua</h4>
-<h4 class="date">2023-04-12</h4>
+<h4 class="date">2023-05-11</h4>
 
 </div>
 
 
-<div id="batch-process-for-deseq" class="section level2">
-<h2>Batch Process for DESeq</h2>
+<div id="r-markdown" class="section level2">
+<h2>R Markdown</h2>
 </div>
-<div id="a.-batch-process" class="section level2">
-<h2>A. Batch Process</h2>
+<div id="batch-processing-of-the-deg-overlap-documents" class="section level2">
+<h2>Batch Processing of the DEG overlap documents</h2>
 <pre class="r"><code>#Setting Working Directory 
-
-  setwd(&quot;~/&quot;)
-   
-   setwd(&quot;Preston_Lab/DESeq_Project/VennDiagram_Results&quot;)
+  
+  
+  setwd(&quot;~/BIO381/LantiguaBio381/VennDiagram_Results&quot;)
+  getwd()</code></pre>
+<pre><code>## [1] &quot;C:/Users/ashle/OneDrive/Documents/BIO381/LantiguaBio381/VennDiagram_Results&quot;</code></pre>
+<pre class="r"><code>  #library
+    
+  library(mgsub)</code></pre>
+<pre><code>## Warning: package &#39;mgsub&#39; was built under R version 4.2.3</code></pre>
+<pre class="r"><code>  library(stringr)</code></pre>
+<pre><code>## Warning: package &#39;stringr&#39; was built under R version 4.2.3</code></pre>
+<pre class="r"><code>  library(purrr)
+  library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.4.2     ✔ readr   2.1.4
+## ✔ tibble  3.1.8     ✔ dplyr   1.1.0
+## ✔ tidyr   1.3.0     ✔ forcats 1.0.0</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.2.3</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>  library(data.table)</code></pre>
+<pre><code>## Warning: package &#39;data.table&#39; was built under R version 4.2.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;data.table&#39;
+## 
+## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, first, last
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     transpose</code></pre>
+<pre class="r"><code>  library(magrittr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;magrittr&#39;
+## 
+## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     extract
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     set_names</code></pre>
+<pre class="r"><code>  library(stringr)
+  library(mygene)</code></pre>
+<pre><code>## Loading required package: GenomicFeatures
+## Loading required package: BiocGenerics
+## 
+## Attaching package: &#39;BiocGenerics&#39;
+## 
+## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     combine, intersect, setdiff, union
+## 
+## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     IQR, mad, sd, var, xtabs
+## 
+## The following objects are masked from &#39;package:base&#39;:
+## 
+##     anyDuplicated, aperm, append, as.data.frame, basename, cbind,
+##     colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
+##     get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,
+##     match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
+##     Position, rank, rbind, Reduce, rownames, sapply, setdiff, sort,
+##     table, tapply, union, unique, unsplit, which.max, which.min
+## 
+## Loading required package: S4Vectors
+## Loading required package: stats4
+## 
+## Attaching package: &#39;S4Vectors&#39;
+## 
+## The following objects are masked from &#39;package:data.table&#39;:
+## 
+##     first, second
+## 
+## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     first, rename
+## 
+## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     expand
+## 
+## The following objects are masked from &#39;package:base&#39;:
+## 
+##     expand.grid, I, unname
+## 
+## Loading required package: IRanges
+## 
+## Attaching package: &#39;IRanges&#39;
+## 
+## The following object is masked from &#39;package:data.table&#39;:
+## 
+##     shift
+## 
+## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     collapse, desc, slice
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     reduce
+## 
+## The following object is masked from &#39;package:grDevices&#39;:
+## 
+##     windows
+## 
+## Loading required package: GenomeInfoDb
+## Loading required package: GenomicRanges
+## 
+## Attaching package: &#39;GenomicRanges&#39;
+## 
+## The following object is masked from &#39;package:magrittr&#39;:
+## 
+##     subtract
+## 
+## Loading required package: AnnotationDbi
+## Loading required package: Biobase
+## Welcome to Bioconductor
+## 
+##     Vignettes contain introductory material; view with
+##     &#39;browseVignettes()&#39;. To cite Bioconductor, see
+##     &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.
+## 
+## 
+## Attaching package: &#39;AnnotationDbi&#39;
+## 
+## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     select</code></pre>
+<pre class="r"><code>  library(dplyr)
 
 #Start the function 
 
@@ -376,42 +505,66 @@ display: none;
  # input: The File Folder, The number of files 
  # output: A CSV file
  #-------------------- 
- DESeq_Batch_Process &lt;- function(file_folder, file_number) {
- 
-#library
-    
-  library(mgsub)
-  library(stringr)
-  library(purrr)
-  library(tidyverse)
-  library(data.table)
-  library(magrittr)
-  library(stringr)
-  library(mygene)
+ DESeq_Batch_Process &lt;- function(file_folder) {
+
 
 #Setting Variables in the Loop 
   
-  csvfiles &lt;- list.files(path = file_folder, pattern = &quot;.csv&quot;)
+  #file_number &lt;- 9
+  
+  
+  csvfiles &lt;- list.files(file_folder)
   print(csvfiles)
+  
+  str(csvfiles)
   
   csv_names &lt;- mgsub(csvfiles, c(&quot;./&quot;,&quot;.csv&quot;), c(&quot;&quot;,&quot;&quot;))
 
+ 
 #Loop #1 - DNA loop 
   
   #Create loop names 
+  
+  
+   dat &lt;- list()
+  
+  csvdata &lt;- for(i in seq_along(csvfiles)){
+       data &lt;- read.table(file= paste(file_folder, csvfiles[i],sep=&quot;&quot;),
+                     sep=&quot;,&quot;,
+                     header=TRUE) 
+                    
+  }
+  
+  
+  
+  #csvdata &lt;- lapply(csvfiles, FUN = fread(x)) %&gt;%
+  #set_names(dataframe_names)
+  
 
-  csvdata &lt;- lapply(csvfiles, FUN = fread(x)) %&gt;%
-  set_names(dataframe_names)
+  #csvdata &lt;- lapply(csvfiles, FUN = fread(x)) %&gt;%
+  #set_names(dataframe_names)
+  
   
   for (i in seq_along(csvdata)) {
     
     #Choosing the DNA of the list 
     
-    DNA_DEG_List_[i] &lt;- csvdata[i][str_detect(csvdata[i], &quot;gene-&quot;)]
+
+  #filter rows that contain the string &#39;Guard&#39; in the player column
+    DNA_DEG_List_[i] &lt;- csvdata[[i]] %&gt;% dyplyr::filter(grepl(&quot;gene-&quot;))
+    #DNA_DEG_List_1 &lt;- csvdata[[1]] %&gt;% dyplyr::filter(grepl(&quot;gene-&quot;))
+    
+    #DNA_DEG_List_[i] &lt;- csvdata[[i]][str_detect(csvdata[[i]], &quot;gene-&quot;)]
+
+    #filter rows that contain the string &#39;Guard&#39; in the player column
+
+    #DNA_DEG_List_[i] &lt;- csvdata[[i]] %&gt;% filter(grepl(&quot;gene-&quot;))
     
     DNA_DEG_List_[i] &lt;- str_replace(DNA_DEG_List_[i], &quot;gene-&quot;, &quot;&quot;)
   
   }
+  
+   
   
 #Loop #2 - DNA loop 
   
@@ -419,56 +572,67 @@ display: none;
     for (i in seq_along(csvdata)) {
     
     #Choosing the DNA of the list 
+      
+     RNA_DEG_List_[i] &lt;- csvdata[[i]] %&gt;% dyplyr::filter(grepl(&quot;rna-&quot;))
     
-    RNA_DEG_List_[i] &lt;- csvdata[i][str_detect(csvdata[i], &quot;rna-&quot;)]
+     #RNA_DEG_List_[i] &lt;- csvdata[[i]][str_detect(csvdata[[i]], &quot;rna-&quot;)]
     
     RNA_DEG_List_[i] &lt;- str_replace(RNA_DEG_List_[i], &quot;rna-&quot;, &quot;&quot;)
   
-  }
-      
-
-  #close loop 
+    }
+ }
   
-  for (i in seq_len(file_number)) {
+  #DESeq_Batch_Process(&quot;~/BIO381/LantiguaBio381/VennDiagram_Results/&quot;)</code></pre>
+</div>
+<div id="ran-into-issues-with-this-batch-code-because-the-read.table-function-wasnt-working.-i-kept-getting-this-error-code." class="section level2">
+<h2>Ran into issues with this batch code because the read.table function
+wasn’t working. I kept getting this error code.</h2>
+<p># Error in data[i] &lt;- read.table(file = paste(file_folder,
+csvfiles[i], : object of type ‘closure’ is not subsettable</p>
+</div>
+<div id="some-old-code-i-was-working-on-that-i-would-have-added-if-it-read-the-files-and-the-package-i-was-trying-to-use." class="section level2">
+<h2>Some old code I was working on that I would have added if it read
+the files and the package I was trying to use.</h2>
+<pre class="r"><code>  #close loop 
+  
+  #for (i in seq_len(file_number)) {
     
     #DNA_DEG_List
     
-    DNA_DEG_List_[i] &lt;- queryMany(DNA_DEG_List_[i], scopes = &quot;symbol&quot;, fields = &quot;ensembl.gene&quot;, return.as = &quot;DataFrame&quot;)
+  #  DNA_DEG_List_[i] &lt;- (DNA_DEG_List_[i], scopes = &quot;symbol&quot;, fields = &quot;ensembl.gene&quot;, return.as = &quot;DataFrame&quot;)
     
     #Remove rows with NAs
     
-    DNA_DEG_List_[i] &lt;- DNA_DEG_List_[i][complete.cases(DNA_DEG_List_[i]),]
+    #DNA_DEG_List_[i] &lt;- DNA_DEG_List_[i][complete.cases(DNA_DEG_List_[i]),]
     
     #RNA_DEG_List                             
                                  
-    RNA_DEG_List_[i] &lt;- queryMany(RNA_DEG_List_[i], scopes = &quot;refseq&quot;, fields = &quot;ensembl.gene&quot;, return.as = &quot;DataFrame&quot;)
+    #RNA_DEG_List_[i] &lt;- queryMany(RNA_DEG_List_[i], scopes = &quot;refseq&quot;, fields = &quot;ensembl.gene&quot;, return.as = &quot;DataFrame&quot;)
     
   
   
     #Remove rows with NAs
   
-     RNA_DEG_List_[i] &lt;- RNA_DEG_List_[i][complete.cases(RNA_DEG_List_[i]),]
+     #RNA_DEG_List_[i] &lt;- RNA_DEG_List_[i][complete.cases(RNA_DEG_List_[i]),]
     
 
 #Combine the objects 
 
     #combine the RNA and DNA 
 
-      DEG_List_[i] &lt;- c(DNA_DEG_List_[i], RNA_DEG_List[i])
+    #  DEG_List_[i] &lt;- c(DNA_DEG_List_[i], RNA_DEG_List[i])
 
     #combine the data object for each one into one data frame
       
-      DEG_List_df &lt;- rbind(DEG_List_df, DEG_List_[i])
+     # DEG_List_df &lt;- rbind(DEG_List_df, DEG_List_[i])
       
- }
+ #}
 
 #save into a csv
       
-       write.table(x= DEG_List_df, file=&quot;DEG_List_df.CSV&quot;, sep = &quot;,&quot;, row.names = FALSE)
+      # write.table(x= DEG_List_df, file=&quot;DEG_List_df.CSV&quot;, sep = &quot;,&quot;, row.names = FALSE)
        
-       str(DEG_List_df)
-
-}</code></pre>
+      # str(DEG_List_df)</code></pre>
 </div>
 
 
