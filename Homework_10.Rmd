@@ -76,6 +76,8 @@ product_matrix(row = 3, column = 2)
 ```{r}
 
 library(ggplot2)
+library(dplyr)
+
 set.seed(100)
 
 #creating the groups 
@@ -98,6 +100,32 @@ df <- data.frame(Group = group_num, Response = z )
 
 print(df)
 
+df <- as.data.frame(df)
+
+# Creating Meansum function 
+
+##############################
+# FUNCTION: meansum
+# purpose: Will calculate the mean sum by group
+# input: the data frame
+# output: a data frame with a summary of the mean
+#-------------------- 
+meansum <- function(df) {
+
+output <- aggregate(df$Response, list(df$Group), FUN=mean)
+
+colnames(output) <- c("Group", "Means")
+
+print(output)
+
+}
+
+# Trying the function
+
+  
+meansum(df)
+
+
 ```
 
 ## b. Write Function that reshuffles the response variable and calculates the mean of each group
@@ -106,15 +134,37 @@ print(df)
 
 #Reshuffles the Response variable 
 
-#Calculates the mean 
+##############################
+# FUNCTION: reshuffle and calc mean
+# purpose: to reshuffle the column and calulate the mean
+# input: the data frame
+# output: the mean for each group 
+#-------------------- 
+shuffle_mean <- function(df) {
+  
+  df <- transform( df, Response = sample(Response))
+  
+  output <- aggregate(df$Response, list(df$Group), FUN=mean)
 
-  means <- tapply(df$Group, df$Response, mean)
-  print(means)
+colnames(output) <- c("Group", "Means")
 
-# Stores the means in a vector of length 3 
+  print(output$Means)
+
+}
 
 
+## Testing the new function that shuffles and creates a vector with the means
 
+
+ firstshuffle <- shuffle_mean(df)
+
+ secondshuffle <- shuffle_mean(df)
+
+
+ firstshuffle
+ 
+ secondshuffle
+ 
 ```
 
 
@@ -123,19 +173,107 @@ print(df)
 
 ```{r}
 
-# For loop to repeat the function 100 times 
-# it will store results in a dataframe
-# Replicate numbers, and the three group means 
 
+#Loading packages 
+
+  library(dplyr)
+
+#Prepping for the loop
+
+    loopreplicate <- 1:100
+  
+    #shufflelist <- list()
+    
+    #shufflelist <- vector("list", length = 100)
+   
+    shuffle_df <- expand.grid(rep = loopreplicate)
+    shuffle_df$Group1 <- NA
+    shuffle_df$Group2 <- NA
+    shuffle_df$Group3 <- NA
+    
+    str(shuffle_df)
+    
+    
+# For loop to repeat the function 100 times 
+ 
+  for (i in 1:nrow(shuffle_df)) {
+    
+    shuffle <- shuffle_mean(df)
+    shuffle_df[i,c(2,3,4)] <- shuffle
+ 
+    
+  }
+
+    
+#four columns, replicate#, group mean 1, group mean 2, group mean 3 
+    
+    #check the data frame
+    
+    str(shuffle_df)
+    
 
 ```
 
-## d. Create a histogram that will plot after each reshuffle 
+## d. Create a histogram that will plot the reshuffle means 
 
 ```{r}
 
+library(ggplot2)
+
+
+  #Group 1 histogram
+
+  Group1_hist <- ggplot(data=shuffle_df, aes(x=Group1, y=..density..)) +
+  geom_histogram(color="grey60",fill="pink", linewidth=0.2) +
+    theme_classic()
+
+  plot(Group1_hist)
+
+    #Group 2 histogram
+
+  Group2_hist <- ggplot(data=shuffle_df, aes(x=Group2, y=..density..)) +
+  geom_histogram(color="grey60",fill="lightblue", linewidth=0.2) +
+    theme_classic()
+  
+     plot(Group2_hist)
+  
+    #Group 3 histogram
+
+  Group3_hist <- ggplot(data=shuffle_df, aes(x=Group3, y=..density..)) +
+  geom_histogram(color="grey60",fill="lightgreen", linewidth=0.2) +
+    theme_classic()
+
+  plot(Group3_hist)
+  
+```
+
+## Creating a combined histogram plot
+
+```{r}
+
+library(ggplot2)
+library(tidyr)
+
+
+Group1 <- data.frame( Means = shuffle_df$Group1)
+
+Group2 <- data.frame( Means = shuffle_df$Group2)
+
+Group3 <- data.frame( Means = shuffle_df$Group3)
+
+str(Group1)
+
+CombinedData <- rbind (Group1, Group2, Group3)
+
+str(CombinedData)
+
+
+new_plot <- ggplot(CombinedData, aes(x= Means)) + geom_histogram(data = Group1, fill = "pink", alpha = 0.9) + geom_histogram(data = Group2, fill = "lightblue", alpha = 0.5)+ geom_histogram(data = Group3, fill = "lightgreen", alpha = 0.3)
+
+plot(new_plot)
 
 
 ```
 
+They appear to be a normal distribution! 
 

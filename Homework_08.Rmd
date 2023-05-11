@@ -32,7 +32,7 @@ knitr::opts_chunk$set(echo = TRUE)
   library(ggplot2)
 
 #Number of treatment groups 
-  nGroup <- 4
+  nGroup <- 2
 
 #Name of Groups 
   nName <- c("Control-WT", "ABA-WT" )
