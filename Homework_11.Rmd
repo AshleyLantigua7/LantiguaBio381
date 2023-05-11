@@ -22,17 +22,11 @@ knitr::opts_chunk$set(echo = TRUE)
   setwd("~/BIO381/LantiguaBio381/VennDiagram_Results")
   getwd()
   
-  #library
-    
-  library(mgsub)
   library(stringr)
-  library(purrr)
   library(tidyverse)
-  library(data.table)
-  library(magrittr)
-  library(stringr)
-  library(mygene)
   library(dplyr)
+  library(mgsub)
+
 
 #Start the function 
 
@@ -119,24 +113,27 @@ knitr::opts_chunk$set(echo = TRUE)
     }
  }
   
-  #DESeq_Batch_Process("~/BIO381/LantiguaBio381/VennDiagram_Results/")
+  DESeq_Batch_Process("~/BIO381/LantiguaBio381/VennDiagram_Results/")
   
 ```
 
-## Ran into issues with this batch code because the read.table function wasn't working. I kept getting this error code. 
+## Ran into issues with this batch code 
 
- # Error in data[i] <- read.table(file = paste(file_folder, csvfiles[i],  : 
-  object of type 'closure' is not subsettable
-
-
-
+    I kept trying to debug my code but wasn't getting an error message
+    I just don't get the output of the ojects I created with the function
+    With continued debugging or rewriting the code I could solve it
 
 
-## Some old code I was working on that I would have added if it read the files and the package I was trying to use. 
+
+## These are part of the old code I was working on that I would have added if it read the files and the package I was trying to use. 
 
 
 ```{r}
 
+   #library(stringr)
+  #library(purrr)
+  #library(mygene)
+  #library(data.table)
       
 
   #close loop 
